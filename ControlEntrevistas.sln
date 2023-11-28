@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SL", "SL\SL.csproj", "{D059
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QRGenerator", "..\..\..\Downloads\QRGenerator\QRGenerator\QRGenerator\QRGenerator.csproj", "{D51A8339-99D5-4971-999A-1098DCEBACDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PL", "PL\PL.csproj", "{D8C29384-5822-47AC-9E08-1560491291C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D51A8339-99D5-4971-999A-1098DCEBACDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D51A8339-99D5-4971-999A-1098DCEBACDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D51A8339-99D5-4971-999A-1098DCEBACDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8C29384-5822-47AC-9E08-1560491291C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8C29384-5822-47AC-9E08-1560491291C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8C29384-5822-47AC-9E08-1560491291C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8C29384-5822-47AC-9E08-1560491291C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

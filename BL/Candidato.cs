@@ -18,7 +18,7 @@ namespace BL
             {
                 using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
                 {
-                    int rowAffected = context.Database.ExecuteSql($"CandidatoAdd '{candidato.Nombre}', '{candidato.ApellidoPaterno}' , '{candidato.ApellidoMaterno}', '{candidato.Correo}', '{candidato.Celular}', {candidato.Vacante.IdVacante}");
+                    int rowAffected = context.Database.ExecuteSql($"CandidatoAdd '{candidato.IdCandidato}','{candidato.Nombre}', '{candidato.ApellidoPaterno}' , '{candidato.ApellidoMaterno}', '{candidato.Correo}', '{candidato.Celular}', {candidato.Vacante.IdVacante}");
                     if (rowAffected > 0)
                     {
                         result.Correct = true;
