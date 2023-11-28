@@ -63,14 +63,14 @@ namespace BL
             }
             return result;
         }
-        public ML.Result Delete(int IdCandidato)
+        public ML.Result Delete(string IdCandidato)
         {
             ML.Result result = new ML.Result();
             try
             {
                 using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
                 {
-                    int rowAffected = context.Database.ExecuteSql($"CandidatoUpdate {IdCandidato}");
+                    int rowAffected = context.Database.ExecuteSql($"CandidatoUpdate '{IdCandidato}'");
                     if (rowAffected > 0)
                     {
                         result.Correct = true;
@@ -133,14 +133,14 @@ namespace BL
             }
             return result;
         }
-        public ML.Result GetById(int idCandidato)
+        public ML.Result GetById(string idCandidato)
         {
             ML.Result result = new ML.Result();
             try
             {
                 using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
                 {
-                    var objCandidato = context.Candidatos.FromSqlRaw($"CandidatoGetById {idCandidato}").FirstOrDefault();
+                    var objCandidato = context.Candidatos.FromSqlRaw($"CandidatoGetById '{idCandidato}'").FirstOrDefault();
                     if (objCandidato != null)
                     {
                         ML.Candidato candidato = new ML.Candidato
