@@ -2,7 +2,7 @@
 {
     public class Candidato
     {
-        public int IdCandidato { get; set; }
+        public string IdCandidato { get; set; }
         public string Nombre { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }

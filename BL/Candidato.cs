@@ -1,4 +1,6 @@
-﻿using ML;
+﻿using DL;
+using Microsoft.EntityFrameworkCore;
+using ML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,41 +11,81 @@ namespace BL
 {
     public class Candidato
     {
-        public ML.Result Add()
+        public ML.Result Add(ML.Candidato candidato)
         {
             ML.Result result = new ML.Result();
             try
             {
-                using(DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
+                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
                 {
-                    Dl
+                    int rowAffected = context.Database.ExecuteSql($"CandidatoAdd '{candidato.Nombre}', '{candidato.ApellidoPaterno}' , '{candidato.ApellidoMaterno}', '{candidato.Correo}', '{candidato.Celular}', {candidato.Vacante.IdVacante}");
+                    if (rowAffected > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
                 }
             }
-            catch (Exception ex) { 
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
             return result;
         }
-        public ML.Result Update()
+        public ML.Result Update(ML.Candidato candidato)
         {
             ML.Result result = new ML.Result();
             try
             {
-
+                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
+                {
+                    int rowAffected = context.Database.ExecuteSql($"CandidatoUpdate {candidato.IdCandidato} ,'{candidato.Nombre}', '{candidato.ApellidoPaterno}' , '{candidato.ApellidoMaterno}', '{candidato.Correo}', '{candidato.Celular}', {candidato.Vacante.IdVacante}");
+                    if (rowAffected > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
             }
             catch (Exception ex)
             {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
             return result;
         }
-        public ML.Result Delete()
+        public ML.Result Delete(int IdCandidato)
         {
             ML.Result result = new ML.Result();
             try
             {
-
+                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
+                {
+                    int rowAffected = context.Database.ExecuteSql($"CandidatoUpdate {IdCandidato}");
+                    if (rowAffected > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
             }
             catch (Exception ex)
             {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
             return result;
         }
@@ -52,22 +94,83 @@ namespace BL
             ML.Result result = new ML.Result();
             try
             {
-
+                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
+                {
+                    var candidatos = context.Candidatos.FromSqlRaw("CandidatoGetAll").ToList();
+                    if (candidatos.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+                        foreach (var objCandidato in candidatos)
+                        {
+                            ML.Candidato candidato = new ML.Candidato
+                            {
+                                IdCandidato = objCandidato.IdCandidato,
+                                Nombre = objCandidato.Nombre,
+                                ApellidoPaterno = objCandidato.ApellidoPaterno,
+                                ApellidoMaterno = objCandidato.ApellidoMaterno,
+                                Celular = objCandidato.Celular,
+                                Correo = objCandidato.Correo,
+                                Vacante = new ML.Vacante
+                                {
+                                    IdVacante = objCandidato.IdVacante.Value
+                                }
+                            };
+                            result.Objects.Add(candidato);
+                        }
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
             }
             catch (Exception ex)
             {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
             return result;
         }
-        public ML.Result GetById()
+        public ML.Result GetById(int idCandidato)
         {
             ML.Result result = new ML.Result();
             try
             {
+                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
+                {
+                    var objCandidato = context.Candidatos.FromSqlRaw($"CandidatoGetById {idCandidato}").FirstOrDefault();
+                    if (objCandidato != null)
+                    {
+                        ML.Candidato candidato = new ML.Candidato
+                        {
+                            IdCandidato = objCandidato.IdCandidato,
+                            Nombre = objCandidato.Nombre,
+                            ApellidoPaterno = objCandidato.ApellidoPaterno,
+                            ApellidoMaterno = objCandidato.ApellidoMaterno,
+                            Celular = objCandidato.Celular,
+                            Correo = objCandidato.Correo,
+                            Vacante = new ML.Vacante
+                            {
+                                IdVacante = objCandidato.IdVacante.Value
+                            }
+                        };
+                        result.Object = candidato;
 
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
             }
             catch (Exception ex)
             {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
             return result;
         }
