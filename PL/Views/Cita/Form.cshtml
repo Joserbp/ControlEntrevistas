@@ -67,7 +67,13 @@
                 @Html.DropDownListFor(model => model.Candidato.Vacante.IdVacante, new SelectList(Model.Candidato.Vacante.Vacantes, "IdVacante", "Nombre"), "Seleciona una opcion", new { @class = "form-control" })
             </div>
         </div>
-
+        <div class="col-md-4 ">
+            @Html.Label("Reclutador")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-thumbtack" style="color: #0056d6;"></i></span>
+                @Html.DropDownListFor(model => model.Reclutador.IdReclutador, new SelectList(Model.Reclutador.Reclutadores, "IdReclutador", "Nombre"), "Seleciona una opcion", new { @class = "form-control" })
+            </div>
+        </div>
         <div class="col-md-3">
             @Html.Label("Fecha")
             <div class="input-group mb-3">
