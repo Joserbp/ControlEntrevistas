@@ -16,7 +16,8 @@ namespace BL
             {
                 using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
                 {
-                    var vacantes = context.Candidatos.FromSqlRaw("VacanteGetAll").ToList();
+                    var vacantes = (from a in context.Vacantes 
+                                   select a).ToList();
                     if (vacantes.Count > 0)
                     {
                         result.Objects = new List<object>();
@@ -24,7 +25,7 @@ namespace BL
                         {
                             ML.Vacante vacante = new ML.Vacante
                             {
-                                IdVacante = objVacante.IdVacante.Value,
+                                IdVacante = objVacante.IdVacante,
                                 Nombre = objVacante.Nombre,
                             };
                             result.Objects.Add(vacante);
