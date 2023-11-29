@@ -4,7 +4,7 @@ namespace QRGenerator
 {
     public class QR
     {
-        public static string GenerateQr(string text)
+        public static byte[] GenerateQr(string text)
         {
             var qrGenerator = new QRCodeGenerator();
             var qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q); //calidad del qr, Q es intermedia
@@ -17,7 +17,7 @@ namespace QRGenerator
 
             byte[] byteImage = ms.ToArray();
 
-            return Convert.ToBase64String(byteImage);
+            return byteImage;
         }
     }
 }

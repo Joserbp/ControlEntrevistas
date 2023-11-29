@@ -34,9 +34,9 @@ namespace PL.Controllers
             ML.Result result = BL.Cita.Add(cita);
             if (result.Correct)
             {
-                string QR = QRGenerator.QR.GenerateQr(cita.Candidato.IdCandidato + cita.Fecha);
-                if (QR != null) { 
-                    
+                byte[] QR = QRGenerator.QR.GenerateQr(cita.Candidato.IdCandidato + cita.Fecha);
+                if (QR != null) {
+                    Send(cita, QR);
                 }
                 return View("Modal");
             }
@@ -46,18 +46,13 @@ namespace PL.Controllers
             }
 
         }
-        [HttpPost]
-        public IActionResult Send(string email, byte[] QR)
-        {
-            #region Pruebas quitar despues 
-            email = "chrisroyhp1990@gmail.com";
-            //byte[] data = QRGenerator.QR.GenerateQr(email);
 
+        public void Send(ML.Cita cita, byte[] QR)
+        {
             string wwwPath = this.Environment.WebRootPath;
             string contentPath = this.Environment.ContentRootPath;
 
             string path = contentPath + "/wwwroot/Correo/CorreoRisosu.html";
-            #endregion
 
             string body = string.Empty;
 
@@ -66,6 +61,10 @@ namespace PL.Controllers
                 body = reader.ReadToEnd();
             }
 
+            //Remplazando lo de html
+            body = body.Replace("{día}", cita.Fecha.ToString());
+            body = body.Replace("{Nombre RH}", cita.Reclutador.Nombre + cita.Reclutador.ApellidoPaterno + cita.Reclutador.ApellidoMaterno);
+
             ContentType c = new ContentType("image/jpeg");
 
             //System.Net.Mail.LinkedResource linkedResource1 = new System.Net.Mail.LinkedResource(new MemoryStream(data));
@@ -73,7 +72,7 @@ namespace PL.Controllers
             //linkedResource1.ContentId = "reclutador";
             //linkedResource1.TransferEncoding = TransferEncoding.Base64;
 
-            System.Net.Mail.LinkedResource linkedResource2 = new System.Net.Mail.LinkedResource(new MemoryStream(data));
+            System.Net.Mail.LinkedResource linkedResource2 = new System.Net.Mail.LinkedResource(new MemoryStream(QR));
             linkedResource2.ContentType = c;
             linkedResource2.ContentId = "qr";
             linkedResource2.TransferEncoding = TransferEncoding.Base64;
@@ -100,12 +99,10 @@ namespace PL.Controllers
 
             mensaje.Attachments.Clear();
 
-            mensaje.To.Add("chrisroyhp1990@gmail.com");
+            mensaje.To.Add("lescogido@digis01.com chernandez@digis01.com jguevara@digis01.com jbecerra@digis01.com dgarcia@digis01.com");
             mensaje.AlternateViews.Add(alternativeView);
 
             smtpClient.Send(mensaje);
-
-            return PartialView();
         }
 
     }
