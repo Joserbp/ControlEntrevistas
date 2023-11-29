@@ -5,20 +5,69 @@
 }
 
 <div class="text-center">
-    <h1>Alta de Cita</h1>
-    <h5>Llena la información para generar la cita del candidato</h5>
+    <h1>Alta de canditato</h1>
+    <h5>Llena la información del nuevo candidato</h5>
 </div>
 <hr />
 @using (@Html.BeginForm("Form", "Cita", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="row">
         <div class="col-md-3">
-            @Html.Label("Candidato")
+            @Html.Label("Nombre del candidato")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-circle-user" style="color: #0056d6;"></i></span>
-                @Html.DropDownListFor(model => model.Candidato.IdCandidato, new SelectList(Model.Candidato.Candidatos, "IdCandidato", "Nombre"), "Seleciona un candidato", new { @class = "form-control", @Id = "ddlCandidato" })
+                @Html.TextBoxFor(model => model.Candidato.Nombre, new { @class = "form-control", @Id = "txtNombre" })
             </div>
         </div>
+        <div class="col-md-3">
+            @Html.Label("Apellido Paterno")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-circle-user" style="color: #0056d6;"></i></span>
+                @Html.TextBoxFor(model => model.Candidato.ApellidoPaterno, new { @class = "form-control", @Id = "txtApellidoPaterno" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.Label("Apellido Paterno")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-circle-user" style="color: #0056d6;"></i></span>
+                @Html.TextBoxFor(model => model.Candidato.ApellidoMaterno, new { @class = "form-control", @Id = "txtApellidoMaterno" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.Label("Correo")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-at" style="color: #0056d6;"></i></span>
+                @Html.TextBoxFor(model => model.Candidato.Correo, new { @class = "form-control", @type = "email", @id = "txtCorreo" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 ">
+            @Html.Label("Telefono")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-hashtag" style="color: #0056d6;"></i></span>
+                @Html.TextBoxFor(model => model.Candidato.Celular, new { @class = "form-control", @Id = "txtNombre" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            @Html.Label("Empresa")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-circle" style="color: #0056d6;"></i></span>
+                <select name="select" class="form-control">
+                    <option value="value1" selected>Selecciona</option>
+                    <option value="value1">Digis 01</option>
+                    <option value="value2">Risosu IT</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4 ">
+            @Html.Label("Vacante")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-thumbtack" style="color: #0056d6;"></i></span>
+                @Html.DropDownListFor(model => model.Candidato.Vacante.IdVacante, new SelectList(Model.Candidato.Vacante.Vacantes, "IdVacante", "Nombre"), "Seleciona una opcion", new { @class = "form-control" })
+            </div>
+        </div>
+
         <div class="col-md-3">
             @Html.Label("Fecha")
             <div class="input-group mb-3">
@@ -26,10 +75,9 @@
                 @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control", @type = "datetime-local", @Id = "Fecha" })
             </div>
         </div>
-        @Html.HiddenFor(model => model.Reclutador)
-        @Html.HiddenFor(model => model.Status)
-    </div>
-    <div class="row">
+
+        @Html.HiddenFor(model => model.Status.IdStatus)
+
     </div>
     <br />
     <div class="text-center">
@@ -37,3 +85,4 @@
         <button class="btn btn-danger">Cancelar <i class="fa-solid fa-xmark"></i></button>
     </div>
 }
+
