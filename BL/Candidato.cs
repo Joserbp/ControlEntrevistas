@@ -11,7 +11,7 @@ namespace BL
 {
     public class Candidato
     {
-        public ML.Result Add(ML.Candidato candidato)
+        public static ML.Result Add(ML.Candidato candidato)
         {
             ML.Result result = new ML.Result();
             try
@@ -37,7 +37,7 @@ namespace BL
             }
             return result;
         }
-        public ML.Result Update(ML.Candidato candidato)
+        public static ML.Result Update(ML.Candidato candidato)
         {
             ML.Result result = new ML.Result();
             try
@@ -63,7 +63,7 @@ namespace BL
             }
             return result;
         }
-        public ML.Result Delete(string IdCandidato)
+        public static ML.Result Delete(string IdCandidato)
         {
             ML.Result result = new ML.Result();
             try
@@ -89,7 +89,7 @@ namespace BL
             }
             return result;
         }
-        public ML.Result GetAll()
+        public static ML.Result GetAll()
         {
             ML.Result result = new ML.Result();
             try
@@ -112,7 +112,8 @@ namespace BL
                                 Correo = objCandidato.Correo,
                                 Vacante = new ML.Vacante
                                 {
-                                    IdVacante = objCandidato.IdVacante.Value
+                                    IdVacante = objCandidato.IdVacante.Value,
+                                    Nombre = objCandidato.NombreVacante
                                 }
                             };
                             result.Objects.Add(candidato);
@@ -133,7 +134,7 @@ namespace BL
             }
             return result;
         }
-        public ML.Result GetById(string idCandidato)
+        public static ML.Result GetById(string idCandidato)
         {
             ML.Result result = new ML.Result();
             try

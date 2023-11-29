@@ -10,5 +10,6 @@
         public string Celular { get; set; }
         public ML.Vacante Vacante { get; set; }
 
+        public List<object> Candidatos { get; set;}
     }
 }

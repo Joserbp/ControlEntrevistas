@@ -1,0 +1,39 @@
+﻿@model ML.Cita
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h1>Alta de Cita</h1>
+    <h5>Llena la información para generar la cita del candidato</h5>
+</div>
+<hr />
+@using (@Html.BeginForm("Form", "Cita", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Label("Candidato")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-circle-user" style="color: #0056d6;"></i></span>
+                @Html.DropDownListFor(model => model.Candidato.IdCandidato, new SelectList(Model.Candidato.Candidatos, "IdCandidato", "Nombre"), "Seleciona un candidato", new { @class = "form-control", @Id = "ddlCandidato" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.Label("Fecha")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-circle-user" style="color: #0056d6;"></i></span>
+                @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control", @type = "datetime-local", @Id = "Fecha" })
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.Reclutador)
+        @Html.HiddenFor(model => model.Status)
+    </div>
+    <div class="row">
+    </div>
+    <br />
+    <div class="text-center">
+        <button class="btn btn-success">Guardar <i class="fa-solid fa-floppy-disk"></i></button>
+        <button class="btn btn-danger">Cancelar <i class="fa-solid fa-xmark"></i></button>
+    </div>
+}

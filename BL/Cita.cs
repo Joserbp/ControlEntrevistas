@@ -1,18 +1,18 @@
-﻿using ML;
+﻿using Microsoft.EntityFrameworkCore;
+using ML;
 
 namespace BL
 {
     public class Cita
     {
-        public ML.Result Add(ML.Cita cita)
+        public static ML.Result Add(ML.Cita cita)
         {
             ML.Result result = new ML.Result();
             try
             {
                 using(DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
                 {
-                    context.Add(cita);
-                    int rowsAffected = context.SaveChanges();
+                    int rowsAffected = context.Database.ExecuteSql($"CitaAdd '{cita.Candidato.IdCandidato}', {cita.Reclutador.IdReclutador}, {cita.Status.IdStatus}, '{cita.Candidato.Nombre}','{cita.Reclutador.Nombre}'");
                     if (rowsAffected > 0)
                     {
                         result.Correct = true;

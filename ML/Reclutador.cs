@@ -8,7 +8,7 @@ namespace ML
 {
     public class Reclutador
     {
-        public int IdReclutador { get; set; }
+        public int? IdReclutador { get; set; }
         public string Nombre { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }

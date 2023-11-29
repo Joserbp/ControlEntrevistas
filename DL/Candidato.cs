@@ -22,4 +22,6 @@ public partial class Candidato
     public virtual ICollection<Citum> Cita { get; set; } = new List<Citum>();
 
     public virtual Vacante? IdVacanteNavigation { get; set; }
+
+    public string? NombreVacante { get; set; }
 }
