@@ -24,6 +24,7 @@ namespace PL.Controllers
             cita.Reclutador = new ML.Reclutador();
             cita.Candidato.Vacante = new ML.Vacante();
             cita.Candidato.Vacante.Vacantes = BL.Vacante.GetAll().Objects;
+            cita.Reclutador.Reclutadores = BL.Reclutador.GetAll().Objects;
             return View(cita);
         }
         [HttpPost]
