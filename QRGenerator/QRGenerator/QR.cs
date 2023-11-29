@@ -19,5 +19,10 @@ namespace QRGenerator
 
             return byteImage;
         }
+
+        public void ValideteQR(string text)
+        {
+
+        }
     }
 }

@@ -36,7 +36,7 @@ namespace PL.Controllers
                 ML.Result result = BL.Cita.Add(cita);
                 if (result.Correct)
                 {
-                    byte[] QR = QRGenerator.QR.GenerateQr(cita.Candidato.IdCandidato + cita.Fecha);
+                    byte[] QR = QRGenerator.QR.GenerateQr(cita.Candidato.IdCandidato + cita.Fecha.ToString("ddMMyyyyHHmm"));
                     if (QR != null)
                     {
                         Send(cita, QR);
@@ -114,7 +114,7 @@ namespace PL.Controllers
         }
         public string GenerarIDUsuarioConFechaHora(ML.Candidato candidato)
         {
-            return candidato.Nombre[0].ToString() + candidato.ApellidoPaterno[0].ToString() + candidato.ApellidoMaterno[0].ToString() + DateTime.Now.ToString("yyyyMMddHHmmss");
+            return candidato.Nombre[0].ToString() + candidato.ApellidoPaterno[0].ToString() + candidato.ApellidoMaterno[0].ToString() + DateTime.Now.ToString("ddMMyyyyHHmmss");
         }
     }
 }
