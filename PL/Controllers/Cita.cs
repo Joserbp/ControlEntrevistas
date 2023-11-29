@@ -19,6 +19,8 @@ namespace PL.Controllers
         {
             ML.Cita cita = new ML.Cita();
             cita.Candidato = new ML.Candidato();
+            cita.Reclutador = new ML.Reclutador();
+            cita.Reclutador.Reclutadores = BL.Reclutador.GetAll().Objects;
             cita.Candidato.Candidatos = BL.Candidato.GetAll().Objects;
 
             return View(cita);

@@ -26,7 +26,13 @@
                 @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control", @type = "datetime-local", @Id = "Fecha" })
             </div>
         </div>
-        @Html.HiddenFor(model => model.Reclutador)
+        <div class="col-md-3">
+            @Html.Label("Reclutador")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-circle-user" style="color: #0056d6;"></i></span>
+                @Html.DropDownListFor(model => model.Reclutador.IdReclutador, new SelectList(Model.Reclutador.Reclutadores, "IdReclutador", "Nombre"), "Selecciona una opción", new { @class = "form-control", @id = "ddlArea" })
+            </div>
+        </div>
         @Html.HiddenFor(model => model.Status)
     </div>
     <div class="row">
