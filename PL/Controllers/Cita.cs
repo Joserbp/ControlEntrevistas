@@ -19,26 +19,34 @@ namespace PL.Controllers
         {
             ML.Cita cita = new ML.Cita();
             cita.Candidato = new ML.Candidato();
+            cita.Status = new ML.Status();
+            cita.Status.IdStatus = 1;
             cita.Reclutador = new ML.Reclutador();
-            cita.Reclutador.Reclutadores = BL.Reclutador.GetAll().Objects;
-            cita.Candidato.Candidatos = BL.Candidato.GetAll().Objects;
-
+            cita.Candidato.Vacante = new ML.Vacante();
+            cita.Candidato.Vacante.Vacantes = BL.Vacante.GetAll().Objects;
             return View(cita);
         }
         [HttpPost]
         public IActionResult Form(ML.Cita cita)
         {
-            cita.Status = new ML.Status();
-            cita.Reclutador = new ML.Reclutador();
-            cita.Candidato = (ML.Candidato)BL.Candidato.GetById(cita.Candidato.IdCandidato).Object;
-            ML.Result result = BL.Cita.Add(cita);
-            if (result.Correct)
-            {
-                byte[] QR = QRGenerator.QR.GenerateQr(cita.Candidato.IdCandidato + cita.Fecha);
-                if (QR != null) {
-                    Send(cita, QR);
+            cita.Candidato.IdCandidato = GenerarIDUsuarioConFechaHora(cita.Candidato).ToUpper();
+            ML.Result resultCandidato = BL.Candidato.Add(cita.Candidato);
+            if (resultCandidato.Correct) {
+                
+                ML.Result result = BL.Cita.Add(cita);
+                if (result.Correct)
+                {
+                    byte[] QR = QRGenerator.QR.GenerateQr(cita.Candidato.IdCandidato + cita.Fecha);
+                    if (QR != null)
+                    {
+                        Send(cita, QR);
+                    }
+                    return View("Modal");
                 }
-                return View("Modal");
+                else
+                {
+                    return View("Modal");
+                }
             }
             else
             {
@@ -104,6 +112,9 @@ namespace PL.Controllers
 
             smtpClient.Send(mensaje);
         }
-
+        public string GenerarIDUsuarioConFechaHora(ML.Candidato candidato)
+        {
+            return candidato.Nombre[0].ToString() + candidato.ApellidoPaterno[0].ToString() + candidato.ApellidoMaterno[0].ToString() + DateTime.Now.ToString("yyyyMMddHHmmss");
+        }
     }
 }

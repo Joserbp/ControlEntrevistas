@@ -11,7 +11,7 @@ public partial class Vacante
 
     public int? IdEmpresa { get; set; }
 
-    public virtual ICollection<Candidato> Candidatos { get; set; } = new List<Candidato>();
+    public virtual ICollection<Candidato>? Candidatos { get; set; } = new List<Candidato>();
 
     public virtual Empresa? IdEmpresaNavigation { get; set; }
 }
