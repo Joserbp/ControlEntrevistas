@@ -1,0 +1,74 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace SL.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class QRController : ControllerBase
+    {
+        [HttpPost]
+        public IActionResult QRValidation(string QRString)
+        {
+            ML.Result result = new ML.Result();
+            if (QRString.Length == 29)
+            {
+                string idCandidato = QRString.Substring(0, 17);
+                string fechaCita = QRString.Substring(17);
+
+                result = BL.Candidato.GetById(idCandidato);
+                if (result.Correct)
+                {
+                   
+                    if (FechaCitaCorrecta(fechaCita))
+                    {
+                        return Ok(result); // ok candidato y fecha corrrecta
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "El tiempo del QR expiro";
+                        return BadRequest(result); // candidato ok  fecha false 
+                    }
+                }
+                 else
+                {
+                    result.ErrorMessage = "Candidato no encontrado";
+                    return BadRequest(result);
+                }
+
+            }
+            else
+            {
+                result.Correct = false;
+                result.ErrorMessage = "QR Invalido";
+                return BadRequest(result);
+            }
+        }
+
+        public bool FechaCitaCorrecta(string fechaCita)
+        {
+            DateTime fechaFormato;
+            if (DateTime.TryParseExact(fechaCita, "ddMMyyyyHHmm",
+                                       System.Globalization.CultureInfo.InvariantCulture,
+                                       System.Globalization.DateTimeStyles.None,
+                                       out fechaFormato))
+            {
+                DateTime fechaActual = DateTime.Now;
+                fechaFormato = fechaFormato.AddSeconds(59);
+                if (fechaFormato >= fechaActual)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}
