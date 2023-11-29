@@ -20,8 +20,7 @@ namespace PL.Controllers
             ML.Cita cita = new ML.Cita();
             cita.Candidato = new ML.Candidato();
             cita.Candidato.Candidatos = BL.Candidato.GetAll().Objects;
-            cita.Status = new ML.Status();
-            cita.Reclutador = new ML.Reclutador();
+
             return View(cita);
         }
         [HttpPost]
@@ -29,8 +28,7 @@ namespace PL.Controllers
         {
             cita.Status = new ML.Status();
             cita.Reclutador = new ML.Reclutador();
-            cita.Reclutador.IdReclutador = null;
-
+            cita.Candidato = (ML.Candidato)BL.Candidato.GetById(cita.Candidato.IdCandidato).Object;
             ML.Result result = BL.Cita.Add(cita);
             if (result.Correct)
             {

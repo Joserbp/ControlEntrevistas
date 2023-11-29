@@ -141,7 +141,7 @@ namespace BL
             {
                 using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
                 {
-                    var objCandidato = context.Candidatos.FromSqlRaw($"CandidatoGetById '{idCandidato}'").FirstOrDefault();
+                    var objCandidato = context.Candidatos.FromSqlRaw($"CandidatoGetById '{idCandidato}'").AsEnumerable().FirstOrDefault();
                     if (objCandidato != null)
                     {
                         ML.Candidato candidato = new ML.Candidato
