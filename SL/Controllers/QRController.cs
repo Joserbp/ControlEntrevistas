@@ -21,16 +21,15 @@ namespace SL.Controllers
                 result = BL.Candidato.GetById(idCandidato);
                 if (result.Correct)
                 {
-
                     if (FechaCitaCorrecta(fechaCita))
                     {
-                        return Ok(result); // ok candidato y fecha corrrecta
+                        return Ok(result);
                     }
                     else
                     {
                         result.Correct = false;
                         result.ErrorMessage = "El tiempo del QR expiro";
-                        return BadRequest(result); // candidato ok  fecha false 
+                        return BadRequest(result);
                     }
                 }
                 else

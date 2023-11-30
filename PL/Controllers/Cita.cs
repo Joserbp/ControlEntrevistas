@@ -2,6 +2,7 @@
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Net;
+using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow.CopyAnalysis;
 
 
 namespace PL.Controllers
@@ -60,7 +61,8 @@ namespace PL.Controllers
         [HttpGet]
         public IActionResult Validar(string? qR)
         {
-            qR = "NAA11302023103700301220231000";
+            ML.Candidato candidato = new ML.Candidato();
+            qR = "PAA11302023103700301120231212";
             if (qR != null)
             {
                 using (var client = new HttpClient())
@@ -75,10 +77,19 @@ namespace PL.Controllers
                     {
                         var readTask = resultAlumno.Content.ReadAsAsync<ML.Result>();
                         readTask.Wait();
-                        ViewBag.Mensaje = "Se ha insertado el usuario";
-                        return PartialView("Modal");
+                        if (readTask.Result.Correct)
+                        {
+                            candidato = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Candidato>(readTask.Result.Object.ToString());
+                            ViewBag.Status = 200;
+                            return View(candidato);
+                        }
+                        else 
+                        {
+                            candidato = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Candidato>(readTask.Result.Object.ToString());
+                            ViewBag.Status = 201;
+                            return View(candidato);
+                        }                      
                     }
-
                     else
                     {
                         ViewBag.Status = 400;

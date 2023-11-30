@@ -14,21 +14,33 @@
 </head>
 <body>
     <div class="container">
-    @switch (ViewBag.Status)
-    {
-        case 400:
-            <div class="text-center">
-                <h1>QR Invalido</h1>
-            </div>
-            <hr />
-            break;
-        case 404:
-            <div class="text-center">
-                <h1>Por favor escanea un codigo QR</h1>
-            </div>
-            <hr />
-            break;
-    }
+        @switch (ViewBag.Status)
+        {
+            case 200:
+                <div class="text-center">
+                    <h1>QR Valido!</h1>
+                </div>
+                <hr />
+                break;
+            case 201:
+                <div class="text-center">
+                    <h1>QR expirado!</h1>
+                </div>
+                <hr />
+                break;
+            case 400:
+                <div class="text-center">
+                    <h1>QR Invalido</h1>
+                </div>
+                <hr />
+                break;
+            case 404:
+                <div class="text-center">
+                    <h1>Por favor escanea un codigo QR</h1>
+                </div>
+                <hr />
+                break;
+        }
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
