@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SL.Controllers
 {
-    [Route("api/[controller]")]
+    
+    [Route("QR")]
     [ApiController]
     public class QRController : ControllerBase
     {
-        [HttpPost]
+        [HttpGet]
+        [Route("{QRString}")]
         public IActionResult QRValidation(string QRString)
         {
             ML.Result result = new ML.Result();
@@ -19,7 +21,7 @@ namespace SL.Controllers
                 result = BL.Candidato.GetById(idCandidato);
                 if (result.Correct)
                 {
-                   
+
                     if (FechaCitaCorrecta(fechaCita))
                     {
                         return Ok(result); // ok candidato y fecha corrrecta
@@ -31,7 +33,7 @@ namespace SL.Controllers
                         return BadRequest(result); // candidato ok  fecha false 
                     }
                 }
-                 else
+                else
                 {
                     result.ErrorMessage = "Candidato no encontrado";
                     return BadRequest(result);
@@ -46,6 +48,7 @@ namespace SL.Controllers
             }
         }
 
+        [NonAction]
         public bool FechaCitaCorrecta(string fechaCita)
         {
             DateTime fechaFormato;

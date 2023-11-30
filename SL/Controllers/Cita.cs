@@ -7,6 +7,7 @@ namespace SL.Controllers
     [ApiController]
     public class Cita : ControllerBase
     {
+        [HttpGet]
         public IActionResult Index() { 
             return Ok();
         }
