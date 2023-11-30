@@ -85,7 +85,7 @@ namespace PL.Controllers
                     {
                         var readTask = resultAlumno.Content.ReadAsAsync<ML.Result>();
                         readTask.Wait();
-                        if (readTask.Result.ErrorMessage == "El tiempo del QR expiro")
+                        if (readTask.Id ==400 && readTask.Result.ErrorMessage == "El tiempo del QR expiro")
                         {
                             candidato = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Candidato>(readTask.Result.Object.ToString());
                             ViewBag.Status = 201;
