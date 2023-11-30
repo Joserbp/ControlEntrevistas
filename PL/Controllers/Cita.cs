@@ -113,11 +113,6 @@ namespace PL.Controllers
 
             ContentType c = new ContentType("image/jpeg");
 
-            //System.Net.Mail.LinkedResource linkedResource1 = new System.Net.Mail.LinkedResource(new MemoryStream(data));
-            //linkedResource1.ContentType = c;
-            //linkedResource1.ContentId = "reclutador";
-            //linkedResource1.TransferEncoding = TransferEncoding.Base64;
-
             System.Net.Mail.LinkedResource linkedResource2 = new System.Net.Mail.LinkedResource(new MemoryStream(QR));
             linkedResource2.ContentType = c;
             linkedResource2.ContentId = "qr";
@@ -130,14 +125,14 @@ namespace PL.Controllers
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("chrisrhernandezp@gmail.com", "cegoveqaoawgyxfa"),
+                Credentials = new NetworkCredential("digis01sistemas@gmail.com", "xrbiwsbgqqcmnace"),
                 EnableSsl = true,
                 UseDefaultCredentials = false
             };
 
             var mensaje = new System.Net.Mail.MailMessage
             {
-                From = new System.Net.Mail.MailAddress("chrisrhernandezp@gmail.com"),
+                From = new System.Net.Mail.MailAddress("digis01sistemas@gmail.com"),
                 Subject = "Codigo acceso al edificio",
                 Body = body,
                 IsBodyHtml = true,
@@ -145,11 +140,12 @@ namespace PL.Controllers
 
             mensaje.Attachments.Clear();
 
-            mensaje.To.Add("lescogido@digis01.com chernandez@digis01.com jguevara@digis01.com jbecerra@digis01.com dgarcia@digis01.com");
+            mensaje.To.Add("digis01sistemas@gmail.com");
             mensaje.AlternateViews.Add(alternativeView);
 
             smtpClient.Send(mensaje);
         }
+
         public string GenerarIDUsuarioConFechaHora(ML.Candidato candidato)
         {
             return candidato.Nombre[0].ToString() + candidato.ApellidoPaterno[0].ToString() + candidato.ApellidoMaterno[0].ToString() + DateTime.Now.ToString("ddMMyyyyHHmmss");

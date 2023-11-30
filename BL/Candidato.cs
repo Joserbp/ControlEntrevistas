@@ -18,7 +18,7 @@ namespace BL
             {
                 using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
                 {
-                    int rowAffected = context.Database.ExecuteSql($"CandidatoAdd '{candidato.IdCandidato}','{candidato.Nombre}', '{candidato.ApellidoPaterno}' , '{candidato.ApellidoMaterno}', '{candidato.Correo}', '{candidato.Celular}', {candidato.Vacante.IdVacante}");
+                    int rowAffected = context.Database.ExecuteSqlRaw($"CandidatoAdd '{candidato.IdCandidato}','{candidato.Nombre}', '{candidato.ApellidoPaterno}' , '{candidato.ApellidoMaterno}', '{candidato.Correo}', '{candidato.Celular}', {candidato.Vacante.IdVacante}");
                     if (rowAffected > 0)
                     {
                         result.Correct = true;
@@ -44,7 +44,7 @@ namespace BL
             {
                 using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
                 {
-                    int rowAffected = context.Database.ExecuteSql($"CandidatoUpdate {candidato.IdCandidato} ,'{candidato.Nombre}', '{candidato.ApellidoPaterno}' , '{candidato.ApellidoMaterno}', '{candidato.Correo}', '{candidato.Celular}', {candidato.Vacante.IdVacante}");
+                    int rowAffected = context.Database.ExecuteSqlRaw($"CandidatoUpdate {candidato.IdCandidato} ,'{candidato.Nombre}', '{candidato.ApellidoPaterno}' , '{candidato.ApellidoMaterno}', '{candidato.Correo}', '{candidato.Celular}', {candidato.Vacante.IdVacante}");
                     if (rowAffected > 0)
                     {
                         result.Correct = true;
@@ -70,7 +70,7 @@ namespace BL
             {
                 using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
                 {
-                    int rowAffected = context.Database.ExecuteSql($"CandidatoUpdate '{IdCandidato}'");
+                    int rowAffected = context.Database.ExecuteSqlRaw($"CandidatoUpdate '{IdCandidato}'");
                     if (rowAffected > 0)
                     {
                         result.Correct = true;
