@@ -13,59 +13,78 @@
     <link rel="stylesheet" href="~/PL.styles.css" asp-append-version="true" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
-<body>
+@* <body style="background-image: url('https://static.vecteezy.com/system/resources/thumbnails/010/884/695/original/dynamic-grey-gradient-animation-smooth-gradient-background-liquid-gradient-moving-background-free-video.jpg')"> *@
+<body style="background: linear-gradient(to bottom right, #000000, #494949)">
     <div class="container">
+        <br />
+        <div class="text-center text-white">
+            <section ><h1>Validación de Codigo QR</h1></section>
+            <hr style="background-color:white; height: 3px" />
+        </div>
+        <br />
+        <br />
+        <br />
         @switch (ViewBag.Status)
         {
             case 200:
                 <div class="text-center">
-                    <h1>QR Valido</h1>
+                    <h1><i class="fa-regular fa-circle-check fa-2xl" style="color: #44983a;"></i></h1>
+                    <h1 style="font-weight:bold; color:#44983a">QR Valido </h1>
                 </div>
-                <hr />
-                <div class="text-center">
-                    <h3>Información del candidato</h3>
-                    <div class="card w-75">
-                        <div class="card-header">
-                            Featured
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">An item</li>
-                            <li class="list-group-item">A second item</li>
-                            <li class="list-group-item">A third item</li>
-                        </ul>
-                    </div>
+                <br />
+                <div class="text-center text-white">
+                    <h5>Información del candidato</h5>                   
                 </div>  
+                <table class="table table-dark table-hover">
+                    <thead class="table-secondary">
+                        <tr class="text-center">
+                            <th> @Model.Nombre @Model.ApellidoPaterno @Model.ApellidoMaterno</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr><td><i class="fa-solid fa-thumbtack" style="color: #cfcfcf;"></i> @Model.Vacante.Nombre</td></tr>
+                        <tr><td><i class="fa-solid fa-at style=" style="color: #cfcfcf;"></i> @Model.Correo</td></tr>
+                        <tr><td><i class="fa-solid fa-phone" style="color: #cfcfcf;"></i> @Model.Celular</td></tr>
+                    </tbody>
+                </table>
                 break;
             case 201:
                 <div class="text-center">
-                    <h1>QR expirado!</h1>
+                    <h1><i class="fa-solid fa-clock fa-2xl" style="color: #ffbb00;"></i></h1>
+                    <h1 style="font-weight:bold; color:#ffbb00">QR Expirado </h1>
                 </div>
-                <hr />
-                <div class="text-center">
-                    <h3>Información del candidato</h3>
-                    <div class="card w-100">
-                        <div class="card-header">
-                            @Model.Nombre @Model.ApellidoPaterno @Model.ApellidoMaterno
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Vacante: @Model.Vacante.Nombre</li>
-                            <li class="list-group-item">Correo: @Model.Correo</li>
-                            <li class="list-group-item">Celular: @Model.Celular</li>
-                        </ul>
-                    </div>
+                <br />
+                <div class="text-center text-white">
+                    <h5>Información del candidato</h5>
                 </div>
+                <table class="table table-dark table-hover">
+                    <thead class="table-secondary">
+                        <tr class="text-center">
+                            <th> @Model.Nombre @Model.ApellidoPaterno @Model.ApellidoMaterno</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr><td><i class="fa-solid fa-thumbtack" style="color: #cfcfcf;"></i> @Model.Vacante.Nombre</td></tr>
+                        <tr><td><i class="fa-solid fa-at style=" style="color: #cfcfcf;"></i> @Model.Correo</td></tr>
+                        <tr><td><i class="fa-solid fa-phone" style="color: #cfcfcf;"></i> @Model.Celular</td></tr>
+                    </tbody>
+                </table>         
                 break;
             case 400:
                 <div class="text-center">
-                    <h1>QR Invalido</h1>
+                    <h1><i class="fa-regular fa-circle-xmark fa-2xl" style="color: #F13838;"></i></h1>
+                    <h1 style="font-weight:bold; color:#F13838">QR Invalido </h1>
+                    <hr style="background-color:#F13838; height: 2px" />
+                    <h5 class="text-white">Intente nuevamente con un codigo QR valido</h5>
                 </div>
-                <hr />
+
                 break;
             case 404:
                 <div class="text-center">
-                    <h1>Por favor escanea un codigo QR</h1>
+                    <h1><i class="fa-regular fa-hand fa-2xl" style="color: #F13838;"></i></h1>
+                    <h1 style="font-weight:bold; color:#F13838">Escanea un codigo QR </h1>
                 </div>
-                <hr />
+                <hr style="background-color:#F13838; height: 2px" />
                 break;
         }
     </div>
@@ -73,11 +92,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript">
     </script>
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            2023
-        </div>
-    </footer>
 </body>
 
 </html>

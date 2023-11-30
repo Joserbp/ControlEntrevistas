@@ -66,11 +66,11 @@ namespace PL.Controllers
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("https://localhost:7164/QR/");
+                    client.BaseAddress = new Uri("https://localhost:7164/cita/validar/");
 
                     var postTask = client.GetAsync(qR);
                     postTask.Wait();
-
+                        
                     var resultAlumno = postTask.Result;
                     if (resultAlumno.IsSuccessStatusCode)
                     {
@@ -85,7 +85,7 @@ namespace PL.Controllers
                     {
                         var readTask = resultAlumno.Content.ReadAsAsync<ML.Result>();
                         readTask.Wait();
-                        if (readTask.Id ==400 && readTask.Result.ErrorMessage == "El tiempo del QR expiro")
+                        if (readTask.Result.ErrorMessage == "El tiempo del QR expiro")
                         {
                             candidato = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Candidato>(readTask.Result.Object.ToString());
                             ViewBag.Status = 201;
