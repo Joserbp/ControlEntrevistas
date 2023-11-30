@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ML.Candidato
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -18,15 +19,41 @@
         {
             case 200:
                 <div class="text-center">
-                    <h1>QR Valido!</h1>
+                    <h1>QR Valido</h1>
                 </div>
                 <hr />
+                <div class="text-center">
+                    <h3>Información del candidato</h3>
+                    <div class="card w-75">
+                        <div class="card-header">
+                            Featured
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">An item</li>
+                            <li class="list-group-item">A second item</li>
+                            <li class="list-group-item">A third item</li>
+                        </ul>
+                    </div>
+                </div>  
                 break;
             case 201:
                 <div class="text-center">
                     <h1>QR expirado!</h1>
                 </div>
                 <hr />
+                <div class="text-center">
+                    <h3>Información del candidato</h3>
+                    <div class="card w-100">
+                        <div class="card-header">
+                            @Model.Nombre @Model.ApellidoPaterno @Model.ApellidoMaterno
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Vacante: @Model.Vacante.Nombre</li>
+                            <li class="list-group-item">Correo: @Model.Correo</li>
+                            <li class="list-group-item">Celular: @Model.Celular</li>
+                        </ul>
+                    </div>
+                </div>
                 break;
             case 400:
                 <div class="text-center">

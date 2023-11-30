@@ -62,7 +62,6 @@ namespace PL.Controllers
         public IActionResult Validar(string? qR)
         {
             ML.Candidato candidato = new ML.Candidato();
-            qR = "PAA11302023103700301120231212";
             if (qR != null)
             {
                 using (var client = new HttpClient())
@@ -77,27 +76,29 @@ namespace PL.Controllers
                     {
                         var readTask = resultAlumno.Content.ReadAsAsync<ML.Result>();
                         readTask.Wait();
-                        if (readTask.Result.Correct)
-                        {
-                            candidato = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Candidato>(readTask.Result.Object.ToString());
-                            ViewBag.Status = 200;
-                            return View(candidato);
-                        }
-                        else 
+
+                        candidato = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Candidato>(readTask.Result.Object.ToString());
+                        ViewBag.Status = 200;
+                        return View(candidato);
+                    }
+                    else
+                    {
+                        var readTask = resultAlumno.Content.ReadAsAsync<ML.Result>();
+                        readTask.Wait();
+                        if (readTask.Result.ErrorMessage == "El tiempo del QR expiro")
                         {
                             candidato = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Candidato>(readTask.Result.Object.ToString());
                             ViewBag.Status = 201;
                             return View(candidato);
-                        }                      
-                    }
-                    else
-                    {
-                        ViewBag.Status = 400;
-                        return View();
+                        }
+                        else
+                        {
+                            ViewBag.Status = 400;
+                            return View();
+                        }
                     }
                 }
             }
-
             else
             {
                 ViewBag.Status = 404;
