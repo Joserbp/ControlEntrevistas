@@ -98,7 +98,7 @@ namespace PL.Controllers
             string wwwPath = this.Environment.WebRootPath;
             string contentPath = this.Environment.ContentRootPath;
 
-            string path = contentPath + "/wwwroot/Correo/CorreoRisosu.html";
+            string path = contentPath + "/wwwroot/Correo/CorreoDigis.html";
 
             string body = string.Empty;
 
@@ -109,7 +109,7 @@ namespace PL.Controllers
 
             //Remplazando lo de html
             body = body.Replace("{día}", cita.Fecha.ToString());
-            body = body.Replace("{Nombre RH}", cita.Reclutador.Nombre + cita.Reclutador.ApellidoPaterno + cita.Reclutador.ApellidoMaterno);
+            body = body.Replace("{NombreRH}", cita.Reclutador.Nombre + ' ' + cita.Reclutador.ApellidoPaterno + ' ' + cita.Reclutador.ApellidoMaterno);
 
             ContentType c = new ContentType("image/jpeg");
 
@@ -119,7 +119,6 @@ namespace PL.Controllers
             linkedResource2.TransferEncoding = TransferEncoding.Base64;
 
             System.Net.Mail.AlternateView alternativeView = System.Net.Mail.AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
-            //alternativeView.LinkedResources.Add(linkedResource1);
             alternativeView.LinkedResources.Add(linkedResource2);
 
             var smtpClient = new SmtpClient("smtp.gmail.com")
@@ -140,7 +139,7 @@ namespace PL.Controllers
 
             mensaje.Attachments.Clear();
 
-            mensaje.To.Add("digis01sistemas@gmail.com");
+            mensaje.To.Add("chrisroyhp1990@gmail.com");
             mensaje.AlternateViews.Add(alternativeView);
 
             smtpClient.Send(mensaje);
