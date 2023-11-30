@@ -12,7 +12,7 @@ namespace BL
             {
                 using(DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
                 {
-                    int rowsAffected = context.Database.ExecuteSqlRaw($"CitaAdd {cita.Candidato.IdCandidato},{cita.Reclutador.IdReclutador}, {cita.Status.IdStatus},{cita.Candidato.Nombre},{cita.Reclutador.Nombre}");
+                    int rowsAffected = context.Database.ExecuteSql($"CitaAdd {cita.Candidato.IdCandidato},{cita.Reclutador.IdReclutador}, {cita.Status.IdStatus},{cita.Candidato.Nombre},{cita.Reclutador.Nombre}");
                     if (rowsAffected > 0)
                     {
                         result.Correct = true;
