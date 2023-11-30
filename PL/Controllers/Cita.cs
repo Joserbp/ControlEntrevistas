@@ -40,7 +40,7 @@ namespace PL.Controllers
                 ML.Result result = BL.Cita.Add(cita);
                 if (result.Correct)
                 {
-                    byte[] QR = QRGenerator.QR.GenerateQr(cita.Candidato.IdCandidato + cita.Fecha.ToString("ddMMyyyyHHmm"));
+                    byte[] QR = QRGenerator.QR.GenerateQr("http://localhost:5184/cita/validar/" + cita.Candidato.IdCandidato + cita.Fecha.ToString("ddMMyyyyHHmm"));
                     if (QR != null)
                     {
                         Send(cita, QR);
