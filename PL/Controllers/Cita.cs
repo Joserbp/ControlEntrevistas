@@ -3,6 +3,7 @@ using System.Net.Mail;
 using System.Net.Mime;
 using System.Net;
 
+
 namespace PL.Controllers
 {
     public class Cita : Controller
@@ -32,8 +33,9 @@ namespace PL.Controllers
         {
             cita.Candidato.IdCandidato = GenerarIDUsuarioConFechaHora(cita.Candidato).ToUpper();
             ML.Result resultCandidato = BL.Candidato.Add(cita.Candidato);
-            if (resultCandidato.Correct) {
-                
+            if (resultCandidato.Correct)
+            {
+
                 ML.Result result = BL.Cita.Add(cita);
                 if (result.Correct)
                 {
@@ -55,7 +57,42 @@ namespace PL.Controllers
             }
 
         }
+        [HttpGet]
+        public IActionResult Validar(string? qR)
+        {
+            qR = "NAA11302023103700301220231000";
+            if (qR != null)
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("https://localhost:7164/QR/");
 
+                    var postTask = client.GetAsync(qR);
+                    postTask.Wait();
+
+                    var resultAlumno = postTask.Result;
+                    if (resultAlumno.IsSuccessStatusCode)
+                    {
+                        var readTask = resultAlumno.Content.ReadAsAsync<ML.Result>();
+                        readTask.Wait();
+                        ViewBag.Mensaje = "Se ha insertado el usuario";
+                        return PartialView("Modal");
+                    }
+
+                    else
+                    {
+                        ViewBag.Status = 400;
+                        return View();
+                    }
+                }
+            }
+
+            else
+            {
+                ViewBag.Status = 404;
+                return View();
+            }
+        }
         public void Send(ML.Cita cita, byte[] QR)
         {
             string wwwPath = this.Environment.WebRootPath;

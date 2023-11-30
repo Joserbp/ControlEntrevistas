@@ -1,0 +1,45 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Validar QR</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PL.styles.css" asp-append-version="true" />
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+    @switch (ViewBag.Status)
+    {
+        case 400:
+            <div class="text-center">
+                <h1>QR Invalido</h1>
+            </div>
+            <hr />
+            break;
+        case 404:
+            <div class="text-center">
+                <h1>Por favor escanea un codigo QR</h1>
+            </div>
+            <hr />
+            break;
+    }
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+    </script>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            2023
+        </div>
+    </footer>
+</body>
+
+</html>
+
