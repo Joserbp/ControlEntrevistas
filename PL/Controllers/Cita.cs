@@ -10,10 +10,12 @@ namespace PL.Controllers
     public class Cita : Controller
     {
         private Microsoft.AspNetCore.Hosting.IHostingEnvironment Environment;
+        private readonly IConfiguration _configuration;
 
-        public Cita(Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment)
+        public Cita(Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment, IConfiguration configuration)
         {
             Environment = _environment;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -40,20 +42,23 @@ namespace PL.Controllers
                 ML.Result result = BL.Cita.Add(cita);
                 if (result.Correct)
                 {
-                    byte[] QR = QRGenerator.QR.GenerateQr("http://localhost:5184/cita/validar?qR=" + cita.Candidato.IdCandidato + cita.Fecha.ToString("ddMMyyyyHHmm"));
+                    byte[] QR = QRGenerator.QR.GenerateQr(_configuration["EndPointsCita:UrlQr"] + cita.Candidato.IdCandidato + cita.Fecha.ToString("ddMMyyyyHHmm"));
                     if (QR != null)
                     {
                         Send(cita, QR);
                     }
+                    ViewBag.Mensaje = "Se agendo correctamente la cita.";
                     return View("Modal");
                 }
                 else
                 {
+                    ViewBag.Mensaje = "Ocurrio un error al agendar la cita.";
                     return View("Modal");
                 }
             }
             else
             {
+                ViewBag.Mensaje = "Ocurrio un error al agendar la cita.";
                 return View("Modal");
             }
 
@@ -66,7 +71,7 @@ namespace PL.Controllers
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("https://localhost:7164/cita/validar/");
+                    client.BaseAddress = new Uri(_configuration["EndPointsCita:UrlValidar"]);
 
                     var postTask = client.GetAsync(qR);
                     postTask.Wait();
@@ -110,7 +115,7 @@ namespace PL.Controllers
             string wwwPath = this.Environment.WebRootPath;
             string contentPath = this.Environment.ContentRootPath;
 
-            string path = contentPath + "/wwwroot/Correo/CorreoDigis.html";
+            string path = contentPath + _configuration["TemplateRoute"];
 
             string body = string.Empty;
 
@@ -119,7 +124,7 @@ namespace PL.Controllers
                 body = reader.ReadToEnd();
             }
 
-            //Remplazando lo de html
+            body = body.Replace("{Candidato}", cita.Candidato.Nombre + ' ' + cita.Candidato.ApellidoPaterno);
             body = body.Replace("{día}", cita.Fecha.ToString());
             body = body.Replace("{correoRH}", cita.Reclutador.Correo);
             body = body.Replace("{NombreRH}", cita.Reclutador.Nombre + ' ' + cita.Reclutador.ApellidoPaterno + ' ' + cita.Reclutador.ApellidoMaterno);
@@ -137,21 +142,22 @@ namespace PL.Controllers
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("digis01sistemas@gmail.com", "xrbiwsbgqqcmnace"),
+                Credentials = new NetworkCredential(_configuration["EmailCredentials:Correo"], _configuration["EmailCredentials:Password"]),
                 EnableSsl = true,
                 UseDefaultCredentials = false
             };
 
             var mensaje = new System.Net.Mail.MailMessage
             {
-                From = new System.Net.Mail.MailAddress("digis01sistemas@gmail.com"),
-                Subject = "Codigo acceso al edificio",
+                From = new System.Net.Mail.MailAddress(_configuration["EmailCredentials:Correo"]),
+                Subject = _configuration["EmailCredentials:Subject"],
                 Body = body,
                 IsBodyHtml = true,
             };
 
             mensaje.Attachments.Clear();
 
+            //Para enviar un correo a multiples personas realizarlo asi ("correo1@gmail.com, correo2@gmail.com")
             mensaje.To.Add(cita.Candidato.Correo);
             mensaje.AlternateViews.Add(alternativeView);
 
