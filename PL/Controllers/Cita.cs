@@ -121,6 +121,7 @@ namespace PL.Controllers
 
             //Remplazando lo de html
             body = body.Replace("{día}", cita.Fecha.ToString());
+            body = body.Replace("{correoRH}", cita.Reclutador.Correo);
             body = body.Replace("{NombreRH}", cita.Reclutador.Nombre + ' ' + cita.Reclutador.ApellidoPaterno + ' ' + cita.Reclutador.ApellidoMaterno);
 
             ContentType c = new ContentType("image/jpeg");
@@ -151,7 +152,7 @@ namespace PL.Controllers
 
             mensaje.Attachments.Clear();
 
-            mensaje.To.Add("chrisroyhp1990@gmail.com");
+            mensaje.To.Add(cita.Candidato.Correo);
             mensaje.AlternateViews.Add(alternativeView);
 
             smtpClient.Send(mensaje);

@@ -81,9 +81,38 @@
                 @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control", @type = "datetime-local", @Id = "Fecha" })
             </div>
         </div>
-
         @Html.HiddenFor(model => model.Status.IdStatus)
-
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-4 ">
+            @Html.Label("Reclutardor Nombre")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-hashtag" style="color: #0056d6;"></i></span>
+                @Html.TextBoxFor(model => model.Reclutador.Nombre, new { @class = "form-control", @Id = "txtNombre" })
+            </div>
+        </div>
+        <div class="col-md-4 ">
+            @Html.Label("Reclutardor Apellido Paterno")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-hashtag" style="color: #0056d6;"></i></span>
+                @Html.TextBoxFor(model => model.Reclutador.ApellidoPaterno, new { @class = "form-control", @Id = "txtNombre" })
+            </div>
+        </div>
+        <div class="col-md-4 ">
+            @Html.Label("Reclutardor Apellido Materno")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-hashtag" style="color: #0056d6;"></i></span>
+                @Html.TextBoxFor(model => model.Reclutador.ApellidoMaterno, new { @class = "form-control", @Id = "txtNombre" })
+            </div>
+        </div>
+        <div class="col-md-4 ">
+            @Html.Label("Correo")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-hashtag" style="color: #0056d6;"></i></span>
+                @Html.TextBoxFor(model => model.Reclutador.Correo, new { @class = "form-control", @Id = "txtNombre" })
+            </div>
+        </div>
     </div>
     <br />
     <div class="text-center">
