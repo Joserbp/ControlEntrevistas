@@ -16,40 +16,46 @@
             @Html.Label("Nombre del candidato")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-circle-user" style="color: #0056d6;"></i></span>
-                @Html.TextBoxFor(model => model.Candidato.Nombre, new { @class = "form-control", @Id = "txtNombre" })
+                @Html.TextBoxFor(model => model.Candidato.Nombre, new { @class = "form-control", @Id = "txtNombre", @onkeypress = "return SoloLetras(event, this)" })
             </div>
+            @Html.ValidationMessageFor(model => Model.Candidato.Nombre, "", new { @class = "text-danger", @id = "lblCandidatoNombreErrorMessage" })
         </div>
         <div class="col-md-3">
             @Html.Label("Apellido Paterno")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-circle-user" style="color: #0056d6;"></i></span>
-                @Html.TextBoxFor(model => model.Candidato.ApellidoPaterno, new { @class = "form-control", @Id = "txtApellidoPaterno" })
+                @Html.TextBoxFor(model => model.Candidato.ApellidoPaterno, new { @class = "form-control", @Id = "txtApellidoPaterno", @onkeypress = "return SoloLetras(event, this)" })
             </div>
+            @Html.ValidationMessageFor(model => Model.Candidato.ApellidoPaterno, "", new { @class = "text-danger", @id = "lblApellidoPaternoErrorMessage" })
         </div>
         <div class="col-md-3">
-            @Html.Label("Apellido Paterno")
+            @Html.Label("Apellido Materno")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-circle-user" style="color: #0056d6;"></i></span>
-                @Html.TextBoxFor(model => model.Candidato.ApellidoMaterno, new { @class = "form-control", @Id = "txtApellidoMaterno" })
+                @Html.TextBoxFor(model => model.Candidato.ApellidoMaterno, new { @class = "form-control", @Id = "txtApellidoMaterno", @onkeypress = "return SoloLetras(event, this)" })
             </div>
+            @Html.ValidationMessageFor(model => Model.Candidato.ApellidoMaterno, "", new { @class = "text-danger", @id = "lblApellidoMaternoErrorMessage" })
         </div>
         <div class="col-md-3">
             @Html.Label("Correo")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-at" style="color: #0056d6;"></i></span>
-                @Html.TextBoxFor(model => model.Candidato.Correo, new { @class = "form-control", @type = "email", @id = "txtCorreo" })
+                @Html.TextBoxFor(model => model.Candidato.Correo, new { @class = "form-control", @id = "txtEmail", onblur = "checkEmail(this.value)", onpaste = "return false" })
+                @Html.ValidationMessageFor(model => Model.Candidato.Correo, "", new { @class = "text-danger", @id = "lblEmailErrorMessage" })
             </div>
         </div>
     </div>
+
     <div class="row">
-        <div class="col-md-4 ">
+        <div class="col-md-3">
             @Html.Label("Telefono")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-hashtag" style="color: #0056d6;"></i></span>
-                @Html.TextBoxFor(model => model.Candidato.Celular, new { @class = "form-control", @Id = "txtNombre" })
+                @Html.TextBoxFor(model => model.Candidato.Celular, new { @class = "form-control", @Id = "txtTelefono", @onkeypress = "return SoloNumeros(event, this)" })
             </div>
+            @Html.ValidationMessageFor(model => Model.Candidato.Celular, "", new { @class = "text-danger", @id = "lblTelefonoErrorMessage" })
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             @Html.Label("Empresa")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-circle" style="color: #0056d6;"></i></span>
@@ -60,14 +66,14 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-4 ">
+        <div class="col-md-3">
             @Html.Label("Vacante")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-thumbtack" style="color: #0056d6;"></i></span>
                 @Html.DropDownListFor(model => model.Candidato.Vacante.IdVacante, new SelectList(Model.Candidato.Vacante.Vacantes, "IdVacante", "Nombre"), "Seleciona una opcion", new { @class = "form-control" })
             </div>
         </div>
-        <div class="col-md-4 ">
+        <div class="col-md-3">
             @Html.Label("Reclutador")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-thumbtack" style="color: #0056d6;"></i></span>
@@ -83,30 +89,35 @@
         </div>
         @Html.HiddenFor(model => model.Status.IdStatus)
     </div>
+
+
     <hr />
+    <div class="text-center">
+        <h1>Informacion de la reclutadora</h1>
+    </div>
     <div class="row">
-        <div class="col-md-4 ">
-            @Html.Label("Reclutardor Nombre")
+        <div class="col-md-3">
+            @Html.Label("Reclutador Nombre")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-hashtag" style="color: #0056d6;"></i></span>
                 @Html.TextBoxFor(model => model.Reclutador.Nombre, new { @class = "form-control", @Id = "txtNombre" })
             </div>
         </div>
-        <div class="col-md-4 ">
-            @Html.Label("Reclutardor Apellido Paterno")
+        <div class="col-md-3">
+            @Html.Label("Reclutador Apellido Paterno")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-hashtag" style="color: #0056d6;"></i></span>
                 @Html.TextBoxFor(model => model.Reclutador.ApellidoPaterno, new { @class = "form-control", @Id = "txtNombre" })
             </div>
         </div>
-        <div class="col-md-4 ">
-            @Html.Label("Reclutardor Apellido Materno")
+        <div class="col-md-3">
+            @Html.Label("Reclutador Apellido Materno")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-hashtag" style="color: #0056d6;"></i></span>
                 @Html.TextBoxFor(model => model.Reclutador.ApellidoMaterno, new { @class = "form-control", @Id = "txtNombre" })
             </div>
         </div>
-        <div class="col-md-4 ">
+        <div class="col-md-3">
             @Html.Label("Correo")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-hashtag" style="color: #0056d6;"></i></span>
@@ -121,3 +132,4 @@
     </div>
 }
 
+<script src="~/js/ValidacionesCita/ValidacionesCampos.js"></script>
