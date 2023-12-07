@@ -5,12 +5,23 @@ namespace BL
 {
     public class Cita
     {
-        public static ML.Result Add(ML.Cita cita)
+        private readonly string _connectionString;
+        public Cita()
+        {
+
+        }
+        public Cita(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+        public  ML.Result Add(ML.Cita cita)
         {
             ML.Result result = new ML.Result();
             try
             {
-                using(DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
+                var optionsBuilder = new DbContextOptionsBuilder<DL.ControlEntrevistaContext>();
+                optionsBuilder.UseSqlServer(_connectionString);
+                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext(optionsBuilder.Options))
                 {
                     int rowsAffected = context.Database.ExecuteSql($"CitaAdd {cita.Candidato.IdCandidato},{cita.Reclutador.IdReclutador}, {cita.Status.IdStatus},{cita.Candidato.Nombre},{cita.Reclutador.Nombre}");
                     if (rowsAffected > 0)

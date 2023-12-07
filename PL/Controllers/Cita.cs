@@ -21,14 +21,17 @@ namespace PL.Controllers
         [HttpGet]
         public IActionResult Form()
         {
+            string connectionString = _configuration.GetConnectionString("Dev");
+            BL.Vacante obj = new BL.Vacante(connectionString);
+            BL.Reclutador objreclutador = new BL.Reclutador(connectionString);
             ML.Cita cita = new ML.Cita();
             cita.Candidato = new ML.Candidato();
             cita.Status = new ML.Status();
             cita.Status.IdStatus = 1;
             cita.Reclutador = new ML.Reclutador();
             cita.Candidato.Vacante = new ML.Vacante();
-            cita.Candidato.Vacante.Vacantes = BL.Vacante.GetAll().Objects;
-            cita.Reclutador.Reclutadores = BL.Reclutador.GetAll().Objects;
+            cita.Candidato.Vacante.Vacantes = obj.GetAll().Objects;
+            cita.Reclutador.Reclutadores = objreclutador.GetAll().Objects;
             return View(cita);
         }
         [HttpPost]
@@ -38,8 +41,9 @@ namespace PL.Controllers
             ML.Result resultCandidato = BL.Candidato.Add(cita.Candidato);
             if (resultCandidato.Correct)
             {
-
-                ML.Result result = BL.Cita.Add(cita);
+                string connectionString = _configuration.GetConnectionString("Dev");
+                BL.Cita citaobj = new BL.Cita(connectionString);
+                ML.Result result = citaobj.Add(cita);
                 if (result.Correct)
                 {
                     byte[] QR = QRGenerator.QR.GenerateQr(_configuration["EndPointsCita:UrlQr"] + cita.Candidato.IdCandidato + cita.Fecha.ToString("ddMMyyyyHHmm"));
