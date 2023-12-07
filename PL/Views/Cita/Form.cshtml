@@ -40,7 +40,7 @@
             @Html.Label("Correo")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="addonNombre"><i class="fa-solid fa-at" style="color: #0056d6;"></i></span>
-                @Html.TextBoxFor(model => model.Candidato.Correo, new { @class = "form-control", @id = "txtEmail", onblur = "checkEmail(this.value)", onpaste = "return false" })
+                @Html.TextBoxFor(model => model.Candidato.Correo, new { @class = "form-control", @id = "txtEmail", onblur = "checkEmail(this.value)"})
                 @Html.ValidationMessageFor(model => Model.Candidato.Correo, "", new { @class = "text-danger", @id = "lblEmailErrorMessage" })
             </div>
         </div>

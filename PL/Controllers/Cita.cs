@@ -115,7 +115,7 @@ namespace PL.Controllers
             string wwwPath = this.Environment.WebRootPath;
             string contentPath = this.Environment.ContentRootPath;
 
-            string path = contentPath + _configuration["TemplateRoute"];
+            string path = contentPath + _configuration["EmailCredentials:TemplateRoute"];
 
             string body = string.Empty;
 
@@ -139,12 +139,12 @@ namespace PL.Controllers
             System.Net.Mail.AlternateView alternativeView = System.Net.Mail.AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
             alternativeView.LinkedResources.Add(linkedResource2);
 
-            var smtpClient = new SmtpClient("smtp.gmail.com")
+            var smtpClient = new SmtpClient(_configuration["SMTPConfig:SMTPClient"])
             {
-                Port = 587,
+                Port = int.Parse(_configuration["SMTPConfig:Port"]),
                 Credentials = new NetworkCredential(_configuration["EmailCredentials:Correo"], _configuration["EmailCredentials:Password"]),
-                EnableSsl = true,
-                UseDefaultCredentials = false
+                EnableSsl = bool.Parse(_configuration["SMTPConfig:EnableSsl"]),
+                UseDefaultCredentials = bool.Parse(_configuration["SMTPConfig:UseDefaultCredentials"])
             };
 
             var mensaje = new System.Net.Mail.MailMessage
@@ -158,7 +158,7 @@ namespace PL.Controllers
             mensaje.Attachments.Clear();
 
             //Para enviar un correo a multiples personas realizarlo asi ("correo1@gmail.com, correo2@gmail.com")
-            mensaje.To.Add(cita.Candidato.Correo);
+            mensaje.To.Add(cita.Candidato.Correo + ", " + _configuration["EmailCredentials:CC"]);
             mensaje.AlternateViews.Add(alternativeView);
 
             smtpClient.Send(mensaje);
