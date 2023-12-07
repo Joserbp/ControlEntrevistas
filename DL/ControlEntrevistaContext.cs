@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DL;
 
 public partial class ControlEntrevistaContext : DbContext
 {
+    //No quitar
+    private readonly IConfiguration _configuration;
+
     public ControlEntrevistaContext()
     {
+    }
+
+    public ControlEntrevistaContext(IConfiguration configuration)
+    {
+        _configuration = configuration;
     }
 
     public ControlEntrevistaContext(DbContextOptions<ControlEntrevistaContext> options)
@@ -33,7 +42,7 @@ public partial class ControlEntrevistaContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=192.168.0.152;Initial Catalog=GeneradorCitas;User ID=sa;Password=Qwerty123456$$$#;Trust Server Certificate=True;");
+        => optionsBuilder.UseSqlServer(_configuration["ConnectionStrings:Dev"]);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
