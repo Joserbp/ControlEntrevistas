@@ -11,7 +11,6 @@ namespace PL.Controllers
     {
         private Microsoft.AspNetCore.Hosting.IHostingEnvironment Environment;
         private readonly IConfiguration _configuration;
-
         public Cita(Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment, IConfiguration configuration)
         {
             Environment = _environment;
@@ -38,10 +37,12 @@ namespace PL.Controllers
         public IActionResult Form(ML.Cita cita)
         {
             cita.Candidato.IdCandidato = GenerarIDUsuarioConFechaHora(cita.Candidato).ToUpper();
-            ML.Result resultCandidato = BL.Candidato.Add(cita.Candidato);
+
+            string connectionString = _configuration.GetConnectionString("Dev");
+            BL.Candidato objCandidato = new BL.Candidato(connectionString);
+            ML.Result resultCandidato = objCandidato.Add(cita.Candidato);
             if (resultCandidato.Correct)
             {
-                string connectionString = _configuration.GetConnectionString("Dev");
                 BL.Cita citaobj = new BL.Cita(connectionString);
                 ML.Result result = citaobj.Add(cita);
                 if (result.Correct)
@@ -77,7 +78,7 @@ namespace PL.Controllers
                 {
                     client.BaseAddress = new Uri(_configuration["EndPointsCita:UrlValidar"]);
 
-                    var postTask = client.GetAsync(qR);
+                    var postTask =  client.GetAsync(qR);
                     postTask.Wait();
                         
                     var resultAlumno = postTask.Result;
@@ -114,6 +115,8 @@ namespace PL.Controllers
                 return View();
             }
         }
+
+        //Funciones
         public void Send(ML.Cita cita, byte[] QR)
         {
             string wwwPath = this.Environment.WebRootPath;
@@ -167,7 +170,6 @@ namespace PL.Controllers
 
             smtpClient.Send(mensaje);
         }
-
         public string GenerarIDUsuarioConFechaHora(ML.Candidato candidato)
         {
             return candidato.Nombre[0].ToString() + candidato.ApellidoPaterno[0].ToString() + candidato.ApellidoMaterno[0].ToString() + DateTime.Now.ToString("ddMMyyyyHHmmss");

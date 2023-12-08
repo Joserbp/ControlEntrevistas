@@ -1,5 +1,6 @@
 using DL;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,6 @@ var app = builder.Build();
 
 var connectionString = builder.Configuration.GetConnectionString("Dev");
 //builder.Services.AddDbContext<ControlEntrevistaContext>(options => options.UseSqlServer(connectionString));
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

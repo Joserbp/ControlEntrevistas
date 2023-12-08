@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace SL.Controllers
 {
@@ -7,6 +8,13 @@ namespace SL.Controllers
     [ApiController]
     public class Cita : ControllerBase
     {
+        private readonly IConfiguration _configuration;
+
+        public Cita(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         [HttpGet]
         [Route("validar/{QRString}")]
         public IActionResult QRValidation(string QRString)
@@ -17,7 +25,9 @@ namespace SL.Controllers
                 string idCandidato = QRString.Substring(0, 17);
                 string fechaCita = QRString.Substring(17);
 
-                result = BL.Candidato.GetById(idCandidato);
+                string connectionString = _configuration.GetConnectionString("Dev");
+                BL.Candidato objCandidato = new BL.Candidato(connectionString);
+                result = objCandidato.GetById(idCandidato);
                 if (result.Correct)
                 {
                     if (FechaCitaCorrecta(fechaCita))
@@ -36,7 +46,6 @@ namespace SL.Controllers
                     result.ErrorMessage = "Candidato no encontrado";
                     return BadRequest(result);
                 }
-
             }
             else
             {

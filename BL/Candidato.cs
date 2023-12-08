@@ -12,12 +12,24 @@ namespace BL
 {
     public class Candidato
     {
-        public static ML.Result Add(ML.Candidato candidato)
+        private readonly string _connectionString;
+        public Candidato()
+        {
+
+        }
+        public Candidato(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        public  ML.Result Add(ML.Candidato candidato)
         {
             ML.Result result = new ML.Result();
             try
-            {
-                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
+            {   
+                var optionsBuilder = new DbContextOptionsBuilder<DL.ControlEntrevistaContext>();
+                optionsBuilder.UseSqlServer(_connectionString);
+                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext(optionsBuilder.Options))
                 {
                     int rowAffected = context.Database.ExecuteSqlRaw($"CandidatoAdd '{candidato.IdCandidato}','{candidato.Nombre}', '{candidato.ApellidoPaterno}' , '{candidato.ApellidoMaterno}', '{candidato.Correo}', '{candidato.Celular}', {candidato.Vacante.IdVacante}");
                     if (rowAffected > 0)
@@ -38,12 +50,14 @@ namespace BL
             }
             return result;
         }
-        public static ML.Result Update(ML.Candidato candidato)
+        public  ML.Result Update(ML.Candidato candidato)
         {
             ML.Result result = new ML.Result();
             try
             {
-                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
+                var optionsBuilder = new DbContextOptionsBuilder<DL.ControlEntrevistaContext>();
+                optionsBuilder.UseSqlServer(_connectionString);
+                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext(optionsBuilder.Options))
                 {
                     int rowAffected = context.Database.ExecuteSqlRaw($"CandidatoUpdate {candidato.IdCandidato} ,'{candidato.Nombre}', '{candidato.ApellidoPaterno}' , '{candidato.ApellidoMaterno}', '{candidato.Correo}', '{candidato.Celular}', {candidato.Vacante.IdVacante}");
                     if (rowAffected > 0)
@@ -64,12 +78,14 @@ namespace BL
             }
             return result;
         }
-        public static ML.Result Delete(string IdCandidato)
+        public  ML.Result Delete(string IdCandidato)
         {
             ML.Result result = new ML.Result();
             try
             {
-                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
+                var optionsBuilder = new DbContextOptionsBuilder<DL.ControlEntrevistaContext>();
+                optionsBuilder.UseSqlServer(_connectionString);
+                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext(optionsBuilder.Options))
                 {
                     int rowAffected = context.Database.ExecuteSqlRaw($"CandidatoUpdate '{IdCandidato}'");
                     if (rowAffected > 0)
@@ -90,12 +106,14 @@ namespace BL
             }
             return result;
         }
-        public static ML.Result GetAll()
+        public  ML.Result GetAll()
         {
             ML.Result result = new ML.Result();
             try
             {
-                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
+                var optionsBuilder = new DbContextOptionsBuilder<DL.ControlEntrevistaContext>();
+                optionsBuilder.UseSqlServer(_connectionString);
+                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext(optionsBuilder.Options))
                 {
                     var candidatos = context.Candidatos.FromSqlRaw("CandidatoGetAll").ToList();
                     if (candidatos.Count > 0)
@@ -135,12 +153,14 @@ namespace BL
             }
             return result;
         }
-        public static ML.Result GetById(string idCandidato)
+        public  ML.Result GetById(string idCandidato)
         {
             ML.Result result = new ML.Result();
             try
             {
-                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext())
+                var optionsBuilder = new DbContextOptionsBuilder<DL.ControlEntrevistaContext>();
+                optionsBuilder.UseSqlServer(_connectionString);
+                using (DL.ControlEntrevistaContext context = new DL.ControlEntrevistaContext(optionsBuilder.Options))
                 {
                     var objCandidato = context.Candidatos.FromSqlRaw($"CandidatoGetById '{idCandidato}'").AsEnumerable().FirstOrDefault();
                     if (objCandidato != null)
